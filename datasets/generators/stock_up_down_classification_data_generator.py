@@ -112,21 +112,15 @@ def get_move_direction(
 def main():
     csv_file = os.path.abspath(file_paths.stock_up_down_classification)
     if os.path.exists(csv_file):
+        print('removing file: ', {csv_file})
         os.remove(csv_file)
 
     olhc_candlesticks = get_olhc_candlesticks(start_date, end_date)
 
-    with open(csv_file, mode='w', newline='') as file:
+    with (open(csv_file, mode='w', newline='') as file):
         writer = csv.writer(file)
 
-        column_names = []
-        for i in range(previous_candle_count, 0, -1):
-            column_names.append(f'candle_{i}')
-        column_names.append('move_direction')
-        writer.writerow(column_names)
-
         n = len(olhc_candlesticks)
-
         previous_candle_info = []
         i = 0
         while i < n:
@@ -136,7 +130,7 @@ def main():
                                                     fixed_target, fixed_loss)
 
                 # write the row to csv file
-                row = previous_candle_info.copy()
+                row = [val for transformed_candle in previous_candle_info for val in transformed_candle]
                 row.append(move_direction)
 
                 writer.writerow(row)
