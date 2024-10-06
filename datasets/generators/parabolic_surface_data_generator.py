@@ -20,12 +20,12 @@ def main():
 
     with open(csv_file, mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(['x', 'y', 'z'])  # Writing the header
+        writer.writerow(['x', 'y', 'z'])
 
         for x in X_VALUES:
             for y in Y_VALUES:
                 z = round(f(x, y) + randomness(0, 1), 2)
-                writer.writerow([x, y, z])  # Writing the data
+                writer.writerow([x, y, z])
 
 
 if __name__ == '__main__':

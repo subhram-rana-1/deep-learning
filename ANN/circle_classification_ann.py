@@ -9,14 +9,17 @@ from keras.src.layers import Dense
 def get_input_output_dataset(relative_file_path: str) -> (DataFrame, DataFrame):
     df = read_csv(relative_file_path)
 
-    input: DataFrame = df.drop('z', axis=1)
-    output: DataFrame = df['z']
+    input = df[['x', 'y']]
+    output = df[['outside_circles', 'c1', 'c2', 'c3']]
+
+    print(input.head())
+    print(output.head())
 
     return input, output
 
 
 def main():
-    input, output = get_input_output_dataset(file_paths.parabolic_surface)
+    input, output = get_input_output_dataset(file_paths.circle_classification)
 
     input_train, input_test, output_train, output_test = \
         train_test_split(input, output, test_size=0.2, random_state=20)
@@ -36,7 +39,7 @@ def main():
     ANN.add(Dense(50, activation='relu', name='hidden_3'))
     ANN.add(Dense(50, activation='relu', name='hidden_4'))
     ANN.add(Dense(50, activation='relu', name='hidden_5'))
-    ANN.add(Dense(1, activation='linear', name='output_layer'))
+    ANN.add(Dense(4, activation='relu', name='output_layer'))
 
     ANN.compile(loss='mean_squared_error', optimizer='adam', metrics=['mae'])
     ANN.summary()
@@ -52,8 +55,8 @@ def main():
 
     # -------------- example predictions --------------- #
     normalised_input_test = input_scaler.transform(input_test)
-    print(f'predicted value: \n{ANN.predict(normalised_input_test[10:15])}')
-    print(f'real outputs: \n{output_test[10:15]}')
+    print(f'predicted value: \n{ANN.predict(normalised_input_test[:20])}')
+    print(f'real outputs: \n{output_test[:20]}')
     # ------------------------------------------------ #
 
 
