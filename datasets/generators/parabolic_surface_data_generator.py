@@ -24,7 +24,7 @@ def main():
 
         for x in X_VALUES:
             for y in Y_VALUES:
-                z = f(x, y) + randomness(0, 1)
+                z = round(f(x, y) + randomness(0, 1), 2)
                 writer.writerow([x, y, z])  # Writing the data
 
 
