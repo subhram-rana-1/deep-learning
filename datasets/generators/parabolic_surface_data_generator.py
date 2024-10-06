@@ -15,8 +15,6 @@ def main():
     csv_file = os.path.abspath(file_paths.parabolic_surface)
     if os.path.exists(csv_file):
         os.remove(csv_file)
-    else:
-        raise Exception(f'file path does not exists: {csv_file}')
 
     with open(csv_file, mode='w', newline='') as file:
         writer = csv.writer(file)
